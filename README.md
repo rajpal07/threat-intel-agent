@@ -176,7 +176,7 @@ ECcouncil/
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/threat-intel-agent.git
+git clone https://github.com/rajpal07/threat-intel-agent.git
 cd threat-intel-agent
 
 # Create virtual environment
