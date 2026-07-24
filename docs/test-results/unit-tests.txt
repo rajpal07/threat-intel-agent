@@ -1,0 +1,45 @@
+# Unit Test Suite — pytest
+# Generated: 2026-07-24 12:15 UTC
+# Covers: tools (fixtures/error-handling), security (injection corpus), router/confidence, graph e2e
+# ---------------------------------------------------------------
+============================= test session starts =============================
+platform win32 -- Python 3.13.3, pytest-9.0.3, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: D:\ECcouncil
+plugins: Faker-40.23.0, langsmith-0.10.2, respx-0.23.1, anyio-4.13.0
+collecting ... collected 32 items
+
+tests/test_graph_e2e.py::test_blocked_path PASSED                        [  3%]
+tests/test_graph_e2e.py::test_empty_path PASSED                          [  6%]
+tests/test_graph_e2e.py::test_ioc_fullpath_demo PASSED                   [  9%]
+tests/test_graph_e2e.py::test_tool_dispatch_actor PASSED                 [ 12%]
+tests/test_graph_e2e.py::test_tool_dispatch_exposure PASSED              [ 15%]
+tests/test_graph_e2e.py::test_tool_dispatch_pivot PASSED                 [ 18%]
+tests/test_graph_e2e.py::test_private_ip_no_external_calls PASSED        [ 21%]
+tests/test_graph_e2e.py::test_multiturn_persists PASSED                  [ 25%]
+tests/test_router.py::test_extract_entities_ip_hash_domain_cve PASSED    [ 28%]
+tests/test_router.py::test_private_ip_detection PASSED                   [ 31%]
+tests/test_router.py::test_classify PASSED                               [ 34%]
+tests/test_router.py::test_router_fallback_without_llm PASSED            [ 37%]
+tests/test_router.py::test_confidence_high_when_corroborated PASSED      [ 40%]
+tests/test_router.py::test_confidence_low_when_no_data PASSED            [ 43%]
+tests/test_router.py::test_confidence_conflict_capped PASSED             [ 46%]
+tests/test_security.py::test_direct_payloads_blocked PASSED              [ 50%]
+tests/test_security.py::test_legit_queries_pass PASSED                   [ 53%]
+tests/test_security.py::test_indirect_payload_neutralized_in_otx PASSED  [ 56%]
+tests/test_security.py::test_sanitizer_preserves_clean_data PASSED       [ 59%]
+tests/test_security.py::test_cve_jargon_not_flagged_as_injection PASSED  [ 62%]
+tests/test_security.py::test_agent_directed_still_caught_in_data PASSED  [ 65%]
+tests/test_security.py::test_scan_input_categories PASSED                [ 68%]
+tests/test_tools.py::test_demo_ip_lookup PASSED                          [ 71%]
+tests/test_tools.py::test_demo_hash_lookup PASSED                        [ 75%]
+tests/test_tools.py::test_missing_key_is_unavailable PASSED              [ 78%]
+tests/test_tools.py::test_http_200 PASSED                                [ 81%]
+tests/test_tools.py::test_http_404 PASSED                                [ 84%]
+tests/test_tools.py::test_http_429_rate_limited PASSED                   [ 87%]
+tests/test_tools.py::test_http_500 PASSED                                [ 90%]
+tests/test_tools.py::test_timeout PASSED                                 [ 93%]
+tests/test_tools.py::test_malformed_json PASSED                          [ 96%]
+tests/test_tools.py::test_nvd_no_key_still_works PASSED                  [100%]
+
+============================= 32 passed in 51.08s =============================

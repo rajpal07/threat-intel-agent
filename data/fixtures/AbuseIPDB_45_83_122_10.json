@@ -1,0 +1,13 @@
+{
+  "data": {
+    "ipAddress": "45.83.122.10",
+    "abuseConfidenceScore": 100,
+    "totalReports": 842,
+    "countryCode": "DE",
+    "isp": "F3 Netze e.V.",
+    "domain": "f3netze.de",
+    "usageType": "Data Center/Web Hosting/Transit",
+    "isTor": true,
+    "lastReportedAt": "2026-07-20T14:03:00+00:00"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "data": {
+    "attributes": {
+      "last_analysis_stats": {"malicious": 8, "suspicious": 1, "harmless": 62, "undetected": 10},
+      "reputation": -15,
+      "categories": {"Forcepoint": "malware", "BitDefender": "phishing"},
+      "registrar": "NameCheap, Inc."
+    }
+  }
+}

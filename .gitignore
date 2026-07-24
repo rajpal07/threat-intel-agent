@@ -1,0 +1,35 @@
+# Secrets — NEVER commit
+.env
+apikeys.txt
+.streamlit/secrets.toml
+
+# Local state / caches
+*.db
+*.sqlite
+*.sqlite3
+.cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+venv/
+.venv/
+env/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Tooling / session state (not part of the deliverable)
+.omc/
+.claude/

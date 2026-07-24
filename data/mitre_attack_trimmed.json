@@ -1,0 +1,139 @@
+{
+  "_meta": {
+    "source": "MITRE ATT&CK Enterprise (curated offline subset)",
+    "note": "Hand-curated subset for offline actor/TTP lookups. Technique IDs and group IDs are real ATT&CK identifiers; the technique list per group is representative, not exhaustive.",
+    "attack_version_reference": "v15"
+  },
+  "groups": [
+    {
+      "id": "G0016",
+      "name": "APT29",
+      "aliases": ["Cozy Bear", "The Dukes", "Nobelium", "Midnight Blizzard", "UNC2452", "YTTRIUM", "Cloaked Ursa"],
+      "description": "Russia-nexus (SVR-attributed) espionage group known for stealthy, long-dwell intrusions including the SolarWinds supply-chain compromise.",
+      "techniques": [
+        {"id": "T1566.002", "name": "Phishing: Spearphishing Link", "tactic": "Initial Access"},
+        {"id": "T1195.002", "name": "Supply Chain Compromise: Compromise Software Supply Chain", "tactic": "Initial Access"},
+        {"id": "T1078", "name": "Valid Accounts", "tactic": "Defense Evasion / Persistence"},
+        {"id": "T1059.001", "name": "Command and Scripting Interpreter: PowerShell", "tactic": "Execution"},
+        {"id": "T1071.001", "name": "Application Layer Protocol: Web Protocols", "tactic": "Command and Control"},
+        {"id": "T1027", "name": "Obfuscated Files or Information", "tactic": "Defense Evasion"},
+        {"id": "T1550.001", "name": "Use Alternate Authentication Material: Application Access Token", "tactic": "Lateral Movement"},
+        {"id": "T1552.004", "name": "Unsecured Credentials: Private Keys", "tactic": "Credential Access"},
+        {"id": "T1098.001", "name": "Account Manipulation: Additional Cloud Credentials", "tactic": "Persistence"}
+      ],
+      "software": ["SUNBURST", "TEARDROP", "Cobalt Strike", "MiniDuke", "WellMess", "WellMail", "GoldMax"]
+    },
+    {
+      "id": "G0007",
+      "name": "APT28",
+      "aliases": ["Fancy Bear", "Sofacy", "Sednit", "STRONTIUM", "Forest Blizzard", "Pawn Storm", "Group 74"],
+      "description": "Russia-nexus (GRU-attributed) espionage group targeting government, military, and political organizations.",
+      "techniques": [
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1110.003", "name": "Brute Force: Password Spraying", "tactic": "Credential Access"},
+        {"id": "T1203", "name": "Exploitation for Client Execution", "tactic": "Execution"},
+        {"id": "T1071.001", "name": "Application Layer Protocol: Web Protocols", "tactic": "Command and Control"},
+        {"id": "T1056.001", "name": "Input Capture: Keylogging", "tactic": "Collection"},
+        {"id": "T1005", "name": "Data from Local System", "tactic": "Collection"}
+      ],
+      "software": ["X-Agent", "X-Tunnel", "Zebrocy", "CHOPSTICK", "Drovorub", "JHUHUGIT"]
+    },
+    {
+      "id": "G0032",
+      "name": "Lazarus Group",
+      "aliases": ["Hidden Cobra", "Guardians of Peace", "ZINC", "Diamond Sleet", "Labyrinth Chollima", "NICKEL ACADEMY"],
+      "description": "North Korea-nexus group conducting espionage and financially motivated operations, including destructive and ransomware attacks.",
+      "techniques": [
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1059.003", "name": "Command and Scripting Interpreter: Windows Command Shell", "tactic": "Execution"},
+        {"id": "T1486", "name": "Data Encrypted for Impact", "tactic": "Impact"},
+        {"id": "T1105", "name": "Ingress Tool Transfer", "tactic": "Command and Control"},
+        {"id": "T1027", "name": "Obfuscated Files or Information", "tactic": "Defense Evasion"}
+      ],
+      "software": ["WannaCry", "FALLCHILL", "BADCALL", "HOPLIGHT", "AppleJeus", "BLINDINGCAN"]
+    },
+    {
+      "id": "G0046",
+      "name": "FIN7",
+      "aliases": ["Carbanak Group", "Carbon Spider", "ELBRUS", "Sangria Tempest"],
+      "description": "Financially motivated group targeting retail, hospitality, and financial sectors, later linked to ransomware operations.",
+      "techniques": [
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1204.002", "name": "User Execution: Malicious File", "tactic": "Execution"},
+        {"id": "T1059.005", "name": "Command and Scripting Interpreter: Visual Basic", "tactic": "Execution"},
+        {"id": "T1053.005", "name": "Scheduled Task/Job: Scheduled Task", "tactic": "Persistence"},
+        {"id": "T1219", "name": "Remote Access Software", "tactic": "Command and Control"}
+      ],
+      "software": ["Carbanak", "POWERSOURCE", "GRIFFON", "BOOSTWRITE", "Pillowmint"]
+    },
+    {
+      "id": "G0034",
+      "name": "Sandworm Team",
+      "aliases": ["Voodoo Bear", "IRIDIUM", "Seashell Blizzard", "BlackEnergy Group", "TeleBots", "ELECTRUM"],
+      "description": "Russia-nexus (GRU Unit 74455) group responsible for destructive attacks including NotPetya and Ukrainian power-grid intrusions.",
+      "techniques": [
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1486", "name": "Data Encrypted for Impact", "tactic": "Impact"},
+        {"id": "T1485", "name": "Data Destruction", "tactic": "Impact"},
+        {"id": "T1210", "name": "Exploitation of Remote Services", "tactic": "Lateral Movement"},
+        {"id": "T1078", "name": "Valid Accounts", "tactic": "Persistence"}
+      ],
+      "software": ["NotPetya", "BlackEnergy", "Industroyer", "Olympic Destroyer", "KillDisk", "Exaramel"]
+    },
+    {
+      "id": "G0006",
+      "name": "APT1",
+      "aliases": ["Comment Crew", "Comment Panda", "PLA Unit 61398", "Byzantine Candor"],
+      "description": "China-nexus espionage group (attributed to PLA Unit 61398) known for large-scale intellectual-property theft.",
+      "techniques": [
+        {"id": "T1566.002", "name": "Phishing: Spearphishing Link", "tactic": "Initial Access"},
+        {"id": "T1059", "name": "Command and Scripting Interpreter", "tactic": "Execution"},
+        {"id": "T1105", "name": "Ingress Tool Transfer", "tactic": "Command and Control"},
+        {"id": "T1114", "name": "Email Collection", "tactic": "Collection"}
+      ],
+      "software": ["WEBC2", "BANGAT", "GLOOXMAIL", "SEASALT"]
+    },
+    {
+      "id": "G0049",
+      "name": "OilRig",
+      "aliases": ["APT34", "Helix Kitten", "Cobalt Gypsy", "Hazel Sandstorm", "EUROPIUM"],
+      "description": "Iran-nexus espionage group targeting Middle Eastern government, energy, and financial organizations.",
+      "techniques": [
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1059.001", "name": "Command and Scripting Interpreter: PowerShell", "tactic": "Execution"},
+        {"id": "T1071.004", "name": "Application Layer Protocol: DNS", "tactic": "Command and Control"},
+        {"id": "T1056.001", "name": "Input Capture: Keylogging", "tactic": "Collection"}
+      ],
+      "software": ["ISMInjector", "QUADAGENT", "BONDUPDATER", "Helminth", "SEASHARPEE"]
+    },
+    {
+      "id": "G0102",
+      "name": "Wizard Spider",
+      "aliases": ["TEMP.MixMaster", "Grim Spider", "TrickBot Group", "UNC1878", "Gold Blackburn"],
+      "description": "Financially motivated Russia-nexus group operating TrickBot and the Ryuk/Conti ransomware ecosystems.",
+      "techniques": [
+        {"id": "T1486", "name": "Data Encrypted for Impact", "tactic": "Impact"},
+        {"id": "T1566.001", "name": "Phishing: Spearphishing Attachment", "tactic": "Initial Access"},
+        {"id": "T1055", "name": "Process Injection", "tactic": "Defense Evasion"},
+        {"id": "T1021.001", "name": "Remote Services: Remote Desktop Protocol", "tactic": "Lateral Movement"}
+      ],
+      "software": ["TrickBot", "Ryuk", "Conti", "BazarLoader", "Emotet", "Cobalt Strike"]
+    },
+    {
+      "id": "G0140",
+      "name": "LockBit",
+      "aliases": ["LockBit 2.0", "LockBit 3.0", "LockBit Black", "LockBit Red", "ABCD Ransomware"],
+      "description": "Ransomware-as-a-Service (RaaS) operation active since 2019, known for high-speed multi-threaded encryption and double-extortion tactics.",
+      "techniques": [
+        {"id": "T1190", "name": "Exploit Public-Facing Application", "tactic": "Initial Access"},
+        {"id": "T1078", "name": "Valid Accounts", "tactic": "Initial Access / Defense Evasion"},
+        {"id": "T1059.001", "name": "Command and Scripting Interpreter: PowerShell", "tactic": "Execution"},
+        {"id": "T1486", "name": "Data Encrypted for Impact", "tactic": "Impact"},
+        {"id": "T1490", "name": "Inhibit System Recovery", "tactic": "Impact"},
+        {"id": "T1567.002", "name": "Exfiltration to Cloud Storage", "tactic": "Exfiltration"},
+        {"id": "T1083", "name": "File and Directory Discovery", "tactic": "Discovery"}
+      ],
+      "software": ["StealBit", "Cobalt Strike", "Mimikatz", "Rclone", "MEGASync", "PsExec", "AdFind"]
+    }
+  ]
+}

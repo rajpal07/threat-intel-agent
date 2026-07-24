@@ -1,0 +1,7 @@
+{
+  "passive_dns": [
+    {"hostname": "malware-drop.example"},
+    {"hostname": "c2panel.example"},
+    {"hostname": "old.suspicious-host.de"}
+  ]
+}

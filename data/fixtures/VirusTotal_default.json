@@ -1,0 +1,14 @@
+{
+  "data": {
+    "attributes": {
+      "last_analysis_stats": {"malicious": 0, "suspicious": 0, "harmless": 72, "undetected": 12},
+      "reputation": 0,
+      "asn": 15169,
+      "as_owner": "Google LLC",
+      "country": "US",
+      "network": "8.8.8.0/24",
+      "categories": {},
+      "last_analysis_results": {}
+    }
+  }
+}

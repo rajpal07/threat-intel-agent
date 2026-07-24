@@ -1,0 +1,8 @@
+{
+  "pulse_info": {
+    "count": 4,
+    "pulses": [
+      {"name": "EICAR Test File Detections", "tags": ["eicar", "test", "signature"]}
+    ]
+  }
+}

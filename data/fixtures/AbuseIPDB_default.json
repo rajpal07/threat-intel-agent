@@ -1,0 +1,12 @@
+{
+  "data": {
+    "abuseConfidenceScore": 0,
+    "totalReports": 0,
+    "countryCode": "US",
+    "isp": "Example ISP",
+    "domain": "example.com",
+    "usageType": "Content Delivery Network",
+    "isTor": false,
+    "lastReportedAt": null
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "data": [
+    {"attributes": {"host_name": "malware-drop.example"}},
+    {"attributes": {"host_name": "c2panel.example"}},
+    {"attributes": {"host_name": "phish-login.example"}}
+  ]
+}

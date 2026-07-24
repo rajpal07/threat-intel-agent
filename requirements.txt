@@ -1,0 +1,15 @@
+langgraph>=0.2.60
+langchain-core>=0.3.30
+langchain-groq>=0.2.3
+langgraph-checkpoint-sqlite>=2.0.1
+streamlit>=1.40.0
+pydantic>=2.9.0
+httpx>=0.27.0
+tenacity>=9.0.0
+python-dotenv>=1.0.1
+structlog>=24.4.0
+pyyaml>=6.0.2
+
+# dev / test
+pytest>=8.3.0
+respx>=0.21.1

@@ -1,0 +1,26 @@
+{
+  "totalResults": 3,
+  "vulnerabilities": [
+    {
+      "cve": {
+        "id": "CVE-2022-26134",
+        "descriptions": [{"lang": "en", "value": "In affected versions of Confluence Server and Data Center, an OGNL injection vulnerability allows an unauthenticated attacker to execute arbitrary code."}],
+        "metrics": {"cvssMetricV31": [{"cvssData": {"baseScore": 9.8, "baseSeverity": "CRITICAL"}}]}
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2021-26084",
+        "descriptions": [{"lang": "en", "value": "Confluence Server Webwork OGNL injection allows an unauthenticated attacker to execute arbitrary code on affected instances."}],
+        "metrics": {"cvssMetricV31": [{"cvssData": {"baseScore": 9.8, "baseSeverity": "CRITICAL"}}]}
+      }
+    },
+    {
+      "cve": {
+        "id": "CVE-2019-3396",
+        "descriptions": [{"lang": "en", "value": "The Widget Connector macro in Confluence Server allows remote attackers to achieve path traversal and remote code execution via server-side template injection."}],
+        "metrics": {"cvssMetricV31": [{"cvssData": {"baseScore": 9.8, "baseSeverity": "CRITICAL"}}]}
+      }
+    }
+  ]
+}

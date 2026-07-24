@@ -1,0 +1,17 @@
+{
+  "data": {
+    "attributes": {
+      "last_analysis_stats": {"malicious": 11, "suspicious": 2, "harmless": 60, "undetected": 15},
+      "reputation": -42,
+      "asn": 205100,
+      "as_owner": "F3 Netze e.V.",
+      "country": "DE",
+      "network": "45.83.120.0/22",
+      "last_analysis_results": {
+        "CrowdStrike": {"category": "malicious", "result": "malicious"},
+        "Kaspersky": {"category": "malicious", "result": "Malware.Generic"},
+        "Fortinet": {"category": "malicious", "result": "Botnet"}
+      }
+    }
+  }
+}
