@@ -316,3 +316,14 @@ Runs 13 test scenarios 3 times each (39 total checks). Tests question routing ac
 - **Language model failures**: If the language model is unavailable, the agent falls back to a simpler rule-based response using the raw API data.
 - **Conversation memory**: Chat history is persisted in a local SQLite database, so the conversation survives page refreshes.
 - **No guessing**: The language model is strictly told to only cite data it received from the APIs. If data is missing, it says so. It never makes up facts.
+
+---
+
+## Future Enhancements (Post-MVP)
+
+While this MVP is robust, heavily cached, and well-defended, there are several areas for architectural growth in a full production SOC environment:
+
+- **Semantic Injection Defense**: Currently, Layer 1 and Layer 2 defenses use fast, deterministic regex patterns. While excellent for performance and preventing false positives on threat-intel jargon, adding a dedicated semantic scanner (like Llama-Guard) could help catch highly obfuscated, zero-day jailbreaks that bypass static patterns.
+- **Intent Routing Efficiency**: The LLM router currently ingests the last 8 messages of chat history to resolve context (e.g., "what is its ASN?"). While highly accurate, this consumes unnecessary tokens. A dedicated entity-resolution memory layer could make routing cheaper and faster.
+- **Commercial Threat Intel Feeds**: The agent currently relies on free-tier APIs, which can occasionally return thin data or strict rate limits. Integrating premium commercial feeds (e.g., CrowdStrike Falcon, Recorded Future) would significantly enhance the depth and speed of the threat analysis.
+- **Dedicated Frontend**: Streamlit is fantastic for rapid prototyping and data science, but a dedicated React/Next.js frontend would allow for richer, custom interactive components (like interactive network graphs for IP/Domain pivoting) and a snappier user experience.
