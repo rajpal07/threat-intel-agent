@@ -100,3 +100,10 @@ def test_confidence_verdicts_by_intent():
 
 def test_confidence_selfcheck():
     confidence._demo()  # runnable model self-check
+
+
+def test_format_caveats_splits_to_new_line():
+    text = "Item 2 [NVD]. Caveats: The evidence provided does not explicitly confirm version."
+    formatted = nodes._format_caveats(text)
+    assert "\n\n**Caveats:**\nThe evidence provided" in formatted
+
