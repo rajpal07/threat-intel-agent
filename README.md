@@ -1,5 +1,7 @@
 # Conversational Threat Intelligence Analyst Agent
 
+🚀 **[Try the Live Agent Here!](https://threatintelecc.streamlit.app)** 🚀
+
 A chat-based security assistant for SOC (Security Operations Center) analysts. The analyst types questions in plain English and the agent figures out what they're asking, queries the right security databases, combines results from multiple sources, and replies with factual, evidence-backed answers.
 
 Built with **LangGraph** (controls the step-by-step processing pipeline), **LangChain** (connects to the language model), and **Streamlit** (the web chat interface).
