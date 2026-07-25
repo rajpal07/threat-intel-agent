@@ -287,7 +287,7 @@ PYTHONPATH=. python -m evals.run --runs 3
 
 Runs 13 test scenarios 3 times each (39 total checks). Tests question routing accuracy, entity extraction, source citation, and attack blocking. Result: 39/39 passed.
 
-*👉 **[View Detailed Test & Eval Results](docs/test-results/README.md)** 👈*
+*👉 **[View Detailed Test & Eval Results](docs/test-results/)** 👈*
 
 ---
 
