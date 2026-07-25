@@ -36,7 +36,7 @@ Answer ONLY from the <evidence> blocks provided. Rules:
 - Structure your response cleanly:
   1. A one-line summary verdict first.
   2. Supporting evidence as short bullet points.
-  3. If there are any caveats, source conflicts, or data gaps, ALWAYS place them on a new line under a separate bold header "**Caveats:**" (never inline inside a bullet point).
+  3. If there are any caveats, source conflicts, or data gaps, ALWAYS place them on a new line under a separate header "Caveats:" (never inline inside a bullet point, and do not add asterisks or bold formatting around Caveats:).
 - Do not recommend running arbitrary commands or visiting untrusted URLs."""
 
 SCOPE_REPLY = (

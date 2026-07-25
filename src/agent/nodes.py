@@ -64,6 +64,31 @@ def _timed(trace: dict, fn, *args) -> ToolResult:
     return res
 
 
+def _format_caveats(text: str) -> str:
+    """Ensure any 'Caveats:' section is split onto its own new line cleanly without markdown asterisks."""
+    if not text:
+        return text
+    import re
+    # Clean any stray ** immediately after or before Caveat/Caveats:
+    text = re.sub(r'\*\*\s*Caveat', 'Caveat', text, flags=re.IGNORECASE)
+    text = re.sub(r'Caveats?\:\s*\*\*\s*', 'Caveats: ', text, flags=re.IGNORECASE)
+    text = re.sub(r'Caveats?\*\*\:\s*', 'Caveats: ', text, flags=re.IGNORECASE)
+
+    # If Caveats: is not on a new line, force it onto a new line
+    text = re.sub(
+        r'(?<!\n)\s*[\.\;]?\s*(?:Caveat|Caveats):\s*',
+        r'\n\nCaveats: ',
+        text,
+        flags=re.IGNORECASE
+    )
+
+    # Clean up any leftover stray double asterisks right after Caveats:
+    text = re.sub(r'Caveats:\s*\*\*\s*', 'Caveats: ', text)
+    # Clean up any triple newlines
+    text = re.sub(r'\n{3,}', '\n\n', text)
+    return text.strip()
+
+
 def _is_rate_limit(exc: Exception) -> bool:
     s = str(exc).lower()
     return any(k in s for k in ("429", "rate limit", "rate_limit", "tokens per day", "tpd", "quota"))
@@ -292,7 +317,8 @@ def grounding_synthesis(state: dict) -> dict:
             answer = _deterministic_summary(results, note="(LLM synthesis unavailable; raw findings shown)")
 
     tr["node_timings"]["synthesis"] = round((time.perf_counter() - t0) * 1000, 1)
-    return {"answer": answer.strip(), "trace": tr}
+    answer = _format_caveats(answer)
+    return {"answer": answer, "trace": tr}
 
 
 def confidence_scorer(state: dict) -> dict:
