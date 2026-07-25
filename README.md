@@ -156,8 +156,7 @@ ECcouncil/
 │   └── run.py                      # Runs scenarios and scores results
 │
 └── docs/
-    ├── design_note.md              # Architecture overview (1 page)
-    └── demo_script.md              # Video demo walkthrough
+    └── design_note.md              # Architecture overview (1 page)
 ```
 
 ---
