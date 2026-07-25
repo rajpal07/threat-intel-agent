@@ -7,6 +7,9 @@ Built with **LangGraph** (controls the step-by-step processing pipeline), **Lang
 ![Agent Demo Part 1](ecc_video_recordr1.gif)
 ![Agent Demo Part 2](ecc_video_recording2.gif)
 
+*Want to dive deeper into the architecture and intent routing? Check out the [1-page Design Document](docs/design_note.md).*
+*Detailed data flows and pipeline diagrams can also be found further down this page to help you understand how the project works.*
+
 ---
 
 ## What It Can Do
