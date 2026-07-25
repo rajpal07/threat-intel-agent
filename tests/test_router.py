@@ -42,24 +42,61 @@ def test_router_fallback_without_llm():
 
 def test_confidence_high_when_corroborated():
     results = [
-        ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 11}}),
-        ToolResult(source="AbuseIPDB", status="ok", data={"abuse_confidence_score": 100}),
+        ToolResult(source="VirusTotal", status="ok",
+                   data={"stats": {"malicious": 40, "suspicious": 2, "harmless": 15}}),
+        ToolResult(source="AbuseIPDB", status="ok",
+                   data={"abuse_confidence_score": 100, "total_reports": 600}),
     ]
-    level, _ = confidence.score(results)
-    assert level == "high"
+    r = confidence.score(results, "ioc_lookup")
+    assert r.band == "high" and r.verdict == "Malicious"
 
 
 def test_confidence_low_when_no_data():
     results = [ToolResult(source="VirusTotal", status="rate_limited")]
-    level, _ = confidence.score(results)
-    assert level == "low"
+    r = confidence.score(results, "ioc_lookup")
+    assert r.band == "low" and r.verdict == "Inconclusive"
 
 
-def test_confidence_conflict_capped():
+def test_confidence_conflict_lowers():
     results = [
-        ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 11}}),
-        ToolResult(source="AbuseIPDB", status="ok", data={"abuse_confidence_score": 0}),
+        ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 30, "harmless": 5}}),
+        ToolResult(source="AbuseIPDB", status="ok", data={"abuse_confidence_score": 0, "total_reports": 0}),
         ToolResult(source="AlienVault OTX", status="ok", data={"pulse_count": 0}),
     ]
-    level, rationale = confidence.score(results)
-    assert level == "medium" and "disagree" in rationale.lower()
+    r = confidence.score(results, "ioc_lookup")
+    assert r.band in ("medium", "low") and r.confidence < 70
+
+
+def test_confidence_ratio_aware():
+    """3/90 detections must be less certain than 40/10 (denominator/consensus)."""
+    weak = confidence.score(
+        [ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 3, "harmless": 88}})],
+        "ioc_lookup")
+    strong = confidence.score(
+        [ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 40, "harmless": 10}})],
+        "ioc_lookup")
+    assert weak.confidence < strong.confidence
+
+
+def test_confidence_injection_caps():
+    """A tampered (Layer-2 flagged) source cannot produce high confidence."""
+    results = [
+        ToolResult(source="VirusTotal", status="ok", data={"stats": {"malicious": 40, "harmless": 5}}),
+        ToolResult(source="AlienVault OTX", status="ok", data={"pulse_count": 9},
+                   suspicion_flags=["instruction_override"]),
+    ]
+    r = confidence.score(results, "ioc_lookup")
+    assert r.confidence <= 60 and r.band != "high"
+
+
+def test_confidence_verdicts_by_intent():
+    exp = confidence.score(
+        [ToolResult(source="NVD", status="ok", data={"cves": [{"severity": "CRITICAL"}]})], "exposure_check")
+    assert exp.verdict.startswith("Exposed") and exp.band == "high"
+    act = confidence.score(
+        [ToolResult(source="MITRE ATT&CK", status="ok", data={"group": "APT29"})], "actor_profile")
+    assert act.verdict.startswith("Profiled") and act.band == "high"
+
+
+def test_confidence_selfcheck():
+    confidence._demo()  # runnable model self-check

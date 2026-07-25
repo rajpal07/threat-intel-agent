@@ -15,6 +15,9 @@ class AgentState(TypedDict, total=False):
     route: dict[str, Any]          # RouteResult.model_dump()
     tool_results: list[dict]       # [ToolResult.model_dump(), ...]
     answer: str
-    confidence: str                # high|medium|low
+    confidence: str                # band: high|medium|low
+    confidence_score: int          # 0..100
     confidence_rationale: str
+    verdict: str                   # Malicious | Benign | Exposed | Profiled | ...
+    confidence_report: dict[str, Any]  # ConfidenceReport.model_dump()
     trace: dict[str, Any]          # TurnTrace.model_dump()

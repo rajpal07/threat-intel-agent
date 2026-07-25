@@ -51,6 +51,25 @@ class Finding(BaseModel):
     confidence: Confidence = "medium"
 
 
+class SourceScore(BaseModel):
+    """One source's contribution to the confidence model."""
+    source: str
+    weight: float                       # effective evidence weight (trust × self-conf × freshness × injection)
+    maliciousness: Optional[float] = None   # 0..1 risk reading, or None for informational sources
+    note: str = ""
+    flagged: bool = False               # Layer-2 injection flag present
+
+
+class ConfidenceReport(BaseModel):
+    """Deterministic verdict + calibrated confidence for one turn."""
+    verdict: str = "Inconclusive"       # intent-aware label (Malicious / Vulnerable / Profiled / ...)
+    verdict_score: float = 0.0          # 0..1 risk/severity (0 for purely informational)
+    confidence: int = 0                 # 0..100
+    band: Confidence = "low"            # high | medium | low  (derived from confidence)
+    rationale: str = ""
+    sources: list[SourceScore] = Field(default_factory=list)
+
+
 class ApiCall(BaseModel):
     source: str
     endpoint: str

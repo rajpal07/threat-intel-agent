@@ -24,6 +24,7 @@ st.markdown(
     .chip{display:inline-block;padding:2px 11px;border-radius:11px;font-size:0.74rem;font-weight:700;}
     .c-high{background:#153d2e;color:#5be9a6;} .c-med{background:#4a3b0a;color:#ffd454;}
     .c-low{background:#3a2530;color:#ff9bb0;} .c-na{background:#232838;color:#8b93a7;}
+    .c-bad{background:#4a1520;color:#ff6b81;} .c-info{background:#12314a;color:#6db3ff;}
     </style>
     """,
     unsafe_allow_html=True,
@@ -67,14 +68,30 @@ def _source_badges(results: list[dict]) -> str:
     return "".join(spans)
 
 
-_CONF = {"high": ("c-high", "HIGH confidence"), "medium": ("c-med", "MEDIUM confidence"),
-         "low": ("c-low", "LOW confidence"), "n/a": ("c-na", "no confidence score")}
+_VERDICT_CLASS = {
+    "Malicious": "c-bad", "Suspicious": "c-med", "Benign": "c-high",
+    "Exposed — Critical/High CVEs": "c-bad", "Exposed — Medium severity": "c-med",
+    "Low-risk CVEs": "c-med", "No known CVEs": "c-high",
+    "Profiled — known actor": "c-info", "Informational": "c-info",
+    "No ATT&CK match": "c-na", "Inconclusive": "c-na",
+}
+_BAND_CLASS = {"high": "c-high", "medium": "c-med", "low": "c-low"}
 
 
-def _confidence_chip(level: str, rationale: str) -> str:
-    cls, label = _CONF.get(level, ("c-na", level or "—"))
-    tip = f" title=\"{rationale}\"" if rationale else ""
-    return f'<span class="chip {cls}"{tip}>{label}</span>'
+def _verdict_confidence_chips(meta: dict) -> str:
+    """Deterministic verdict chip + calibrated confidence-% chip."""
+    verdict = meta.get("verdict") or ""
+    band = meta.get("confidence") or ""
+    score = meta.get("confidence_score")
+    tip = (meta.get("confidence_rationale") or "").replace('"', "'")
+    tipattr = f' title="{tip}"' if tip else ""
+    out = []
+    if verdict:
+        vcls = _VERDICT_CLASS.get(verdict, "c-na")
+        out.append(f'<span class="chip {vcls}"{tipattr}>{verdict}</span>')
+    if band in _BAND_CLASS and score is not None:
+        out.append(f'<span class="chip {_BAND_CLASS[band]}"{tipattr}>confidence {score}% · {band}</span>')
+    return " ".join(out)
 
 
 def _render_trace(meta: dict):
@@ -89,10 +106,23 @@ def _render_trace(meta: dict):
             st.caption("Node timings (ms): " + ", ".join(f"{k}={v}" for k, v in timings.items()))
         calls = tr.get("api_calls", [])
         if calls:
-            st.dataframe(calls, use_container_width=True, hide_index=True)
+            st.dataframe(calls, width="stretch", hide_index=True)
         if tr.get("injection_flags"):
             st.warning("Sanitizer/guard flagged: " + ", ".join(tr["injection_flags"]))
-        if meta.get("confidence_rationale"):
+        report = meta.get("confidence_report") or {}
+        if report.get("sources"):
+            st.caption("**Confidence model — per-source evidence weight**")
+            rows = [{
+                "source": s.get("source"),
+                "weight": round(s.get("weight", 0), 2),
+                "maliciousness": ("—" if s.get("maliciousness") is None else round(s["maliciousness"], 2)),
+                "flagged": "⚠" if s.get("flagged") else "",
+                "note": s.get("note", ""),
+            } for s in report["sources"]]
+            st.dataframe(rows, width="stretch", hide_index=True)
+            st.caption(f"Verdict **{report.get('verdict')}** (risk {report.get('verdict_score')}) · "
+                       f"confidence **{report.get('confidence')}%** — {meta.get('confidence_rationale','')}")
+        elif meta.get("confidence_rationale"):
             st.caption("Confidence: " + meta["confidence_rationale"])
 
 
@@ -126,7 +156,7 @@ with st.sidebar:
     st.metric("Tokens", f"{st.session_state.tokens_in}→{st.session_state.tokens_out}")
     st.metric("Est. cost (USD)", f"${st.session_state.cost:.5f}")
 
-    if st.button("🧹 New session", use_container_width=True):
+    if st.button("🧹 New session", width="stretch"):
         st.session_state.thread_id = str(uuid.uuid4())
         st.session_state.history = []
         st.session_state.tokens_in = st.session_state.tokens_out = 0
@@ -150,7 +180,7 @@ for turn in st.session_state.history:
     with st.chat_message(turn["role"]):
         if turn["role"] == "assistant":
             meta = turn.get("meta", {})
-            chips = _confidence_chip(meta.get("confidence", ""), meta.get("confidence_rationale", ""))
+            chips = _verdict_confidence_chips(meta)
             badges = _source_badges(meta.get("tool_results", []))
             if chips or badges:
                 st.markdown(chips + " " + badges, unsafe_allow_html=True)
@@ -175,11 +205,14 @@ if prompt:
         tr = state.get("trace", {})
         meta = {
             "confidence": state.get("confidence", ""),
+            "confidence_score": state.get("confidence_score"),
             "confidence_rationale": state.get("confidence_rationale", ""),
+            "verdict": state.get("verdict", ""),
+            "confidence_report": state.get("confidence_report", {}),
             "tool_results": state.get("tool_results", []),
             "trace": tr,
         }
-        chips = _confidence_chip(meta["confidence"], meta["confidence_rationale"])
+        chips = _verdict_confidence_chips(meta)
         badges = _source_badges(meta["tool_results"])
         if chips or badges:
             st.markdown(chips + " " + badges, unsafe_allow_html=True)

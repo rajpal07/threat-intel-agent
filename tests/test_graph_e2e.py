@@ -30,8 +30,10 @@ def test_empty_path():
 def test_ioc_fullpath_demo(demo):
     s = run_turn(_app(), "Is 45.83.122.10 malicious?", str(uuid.uuid4()))
     assert s["answer"]                                  # never empty
-    assert s["confidence"] == "high"                    # 4 sources corroborate
-    assert "instruction_override" in s["trace"]["injection_flags"]  # poisoned pulse caught
+    assert s["verdict"] == "Malicious"                  # deterministic verdict
+    # poisoned OTX pulse is flagged, so confidence is injection-capped (not high)
+    assert "instruction_override" in s["trace"]["injection_flags"]
+    assert s["confidence_score"] <= 60
     sources = {c["source"] for c in s["trace"]["api_calls"]}
     assert {"VirusTotal", "AbuseIPDB", "AlienVault OTX", "Shodan"} <= sources
 

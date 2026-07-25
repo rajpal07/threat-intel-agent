@@ -296,17 +296,20 @@ def grounding_synthesis(state: dict) -> dict:
 
 
 def confidence_scorer(state: dict) -> dict:
-    """Deterministic confidence + finalize assistant turn."""
+    """Deterministic verdict + calibrated confidence, then finalize the turn."""
     tr = state.get("trace") or _blank_trace()
     results = [ToolResult(**d) for d in state.get("tool_results", [])]
-    level, rationale = confidence.score(results)
+    report = confidence.score(results, intent=tr.get("intent", "ioc_lookup"))
     answer = state.get("answer", "")
     tr["tokens_cost_usd"] = estimate_cost(tr.get("tokens_in", 0), tr.get("tokens_out", 0),
                                           _model_name())
-    log.info("turn_complete", intent=tr.get("intent"), confidence=level,
+    log.info("turn_complete", intent=tr.get("intent"), verdict=report.verdict,
+             confidence=report.confidence, band=report.band,
              sources=[r.source for r in results if r.usable],
              injection_flags=tr.get("injection_flags"))
-    return {"confidence": level, "confidence_rationale": rationale,
+    return {"confidence": report.band, "confidence_rationale": report.rationale,
+            "verdict": report.verdict, "confidence_score": report.confidence,
+            "confidence_report": report.model_dump(),
             "trace": tr, "messages": [AIMessage(answer)]}
 
 

@@ -244,13 +244,21 @@ Turn 3: Pivot from that IP to linked domains  <- "that IP" = 45.83.122.10
 
 ## Confidence Scoring
 
-Every answer includes a confidence rating based on source agreement:
+Every response displays two badges to give analysts a clear, reliable assessment:
 
-| Rating | What it means |
-|:---|:---|
-| **HIGH** | Two or more independent sources agree, or a single authoritative source (like MITRE ATT&CK or NVD) has strong data |
-| **MEDIUM** | Only one source has data, or sources disagree with each other |
-| **LOW** | No source returned usable data |
+1. **Verdict Badge**: Tells the analyst the risk classification (such as `Malicious`, `Suspicious`, `Benign`, `Exposed - Critical/High CVEs`, or `Profiled - known actor`).
+2. **Confidence Badge**: Shows a score from **0% to 100%** along with a level (`high`, `medium`, or `low`) indicating how reliable the evidence is.
+
+### How Confidence Is Calculated
+
+Confidence is calculated using a transparent formula based on four factors:
+
+- **Source Trust**: Authoritative databases (like VirusTotal, NVD, and MITRE ATT&CK) carry higher weight than single threat feeds.
+- **Source Agreement**: When multiple independent databases agree on a threat, confidence increases. If sources contradict each other, confidence decreases.
+- **Data Freshness**: Outdated or cached records receive slightly lower confidence weight than fresh queries.
+- **Tamper Protection**: If a database response contains hidden manipulation attempts, its weight is reduced and overall confidence is capped at 60%.
+
+An analyst can expand **Agent steps (trace)** under any answer to see the full breakdown of scores, individual database weights, and reasoning.
 
 ---
 
@@ -264,7 +272,7 @@ $env:PYTHONPATH='.'; .\.venv\Scripts\pytest -v
 PYTHONPATH=. pytest -v
 ```
 
-30 tests covering attack detection, question understanding, API handling, and full pipeline behavior. All pass.
+36 tests covering attack detection, question understanding, API handling, confidence scoring, and full pipeline behavior. All pass.
 
 ### Evaluation harness (needs Groq API key)
 
