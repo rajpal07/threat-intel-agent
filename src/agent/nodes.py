@@ -58,27 +58,10 @@ def _timed(trace: dict, fn, *args) -> ToolResult:
     try:
         res = fn(*args)
     except Exception as exc:  # tool bug must never crash the graph
-        res = ToolResult(source=getattr(fn, "__name__", "tool"), status="error",
-                         data={"error": str(exc)})
+        res = ToolResult(source=getattr(fn, "__module__", "tool"), status="error",
+                         error=f"tool exception: {type(exc).__name__}")
     _record_call(trace, res, (time.perf_counter() - t) * 1000)
     return res
-
-
-def _format_caveats(text: str) -> str:
-    """Ensure any 'Caveats:' section is split onto its own new line with a bold header."""
-    if not text:
-        return text
-    import re
-    # Match inline "Caveats:" or "**Caveats:**" or "Caveat:" that is not already at the start of a new line
-    text = re.sub(
-        r'(?<!\n)\s*[\.\;]?\s*(?:\*\*)?(?:Caveat|Caveats)(?:\*\*)?:\s*',
-        r'\n\n**Caveats:**\n',
-        text,
-        flags=re.IGNORECASE
-    )
-    # Clean up any triple newlines
-    text = re.sub(r'\n{3,}', '\n\n', text)
-    return text.strip()
 
 
 def _is_rate_limit(exc: Exception) -> bool:
@@ -309,8 +292,7 @@ def grounding_synthesis(state: dict) -> dict:
             answer = _deterministic_summary(results, note="(LLM synthesis unavailable; raw findings shown)")
 
     tr["node_timings"]["synthesis"] = round((time.perf_counter() - t0) * 1000, 1)
-    answer = _format_caveats(answer)
-    return {"answer": answer, "trace": tr}
+    return {"answer": answer.strip(), "trace": tr}
 
 
 def confidence_scorer(state: dict) -> dict:
