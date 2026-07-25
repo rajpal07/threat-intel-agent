@@ -70,10 +70,11 @@ def _source_badges(results: list[dict]) -> str:
 
 _VERDICT_CLASS = {
     "Malicious": "c-bad", "Suspicious": "c-med", "Benign": "c-high",
-    "Exposed — Critical/High CVEs": "c-bad", "Exposed — Medium severity": "c-med",
+    "Exposed — Critical/High CVEs": "c-bad", "Exposed - Critical/High CVEs": "c-bad",
+    "Exposed — Medium severity": "c-med", "Exposed - Medium severity": "c-med",
     "Low-risk CVEs": "c-med", "No known CVEs": "c-high",
-    "Profiled — known actor": "c-info", "Informational": "c-info",
-    "No ATT&CK match": "c-na", "Inconclusive": "c-na",
+    "Profiled — known actor": "c-info", "Profiled - known actor": "c-info",
+    "Informational": "c-info", "No ATT&CK match": "c-na", "Inconclusive": "c-na",
 }
 _BAND_CLASS = {"high": "c-high", "medium": "c-med", "low": "c-low"}
 
