@@ -4,6 +4,9 @@ A chat-based security assistant for SOC (Security Operations Center) analysts. T
 
 Built with **LangGraph** (controls the step-by-step processing pipeline), **LangChain** (connects to the language model), and **Streamlit** (the web chat interface).
 
+![Agent Demo Part 1](ecc_video_recordr1.gif)
+![Agent Demo Part 2](ecc_video_recording2.gif)
+
 ---
 
 ## What It Can Do
